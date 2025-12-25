@@ -67,14 +67,21 @@ const teamYearData = [
     stat: "5명", // 강조 숫자/통계
     icon: "👥", // 이모지 아이콘
 
-    // 🆕 이미지 URL 배열 (1-3개 추천)
+    // 이미지 URL 배열 (1-3개 추천)
     images: [
       "https://images.unsplash.com/photo-xxx",
       "https://images.unsplash.com/photo-yyy",
     ],
 
-    // 🆕 동영상 URL (선택사항, 없으면 null)
+    // 동영상 URL (선택사항, 없으면 null)
     video: "https://example.com/video.mp4",
+    
+    // 🆕 이미지/동영상 위치 직접 지정 (선택사항)
+    videoPosition: { top: '10%', left: '3%', rotate: -3 },
+    imagePositions: [
+      { top: '8%', right: '3%', rotate: 5 },  // 이미지1
+      { top: '45%', left: '5%', rotate: -5 }  // 이미지2
+    ],
 
     features: [
       // 세부 항목들
