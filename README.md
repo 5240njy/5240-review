@@ -75,12 +75,12 @@ const teamYearData = [
 
     // 동영상 URL (선택사항, 없으면 null)
     video: "https://example.com/video.mp4",
-    
+
     // 🆕 이미지/동영상 위치 직접 지정 (선택사항)
-    videoPosition: { top: '10%', left: '3%', rotate: -3 },
+    videoPosition: { top: "10%", left: "3%", rotate: -3 },
     imagePositions: [
-      { top: '8%', right: '3%', rotate: 5 },  // 이미지1
-      { top: '45%', left: '5%', rotate: -5 }  // 이미지2
+      { top: "8%", right: "3%", rotate: 5 }, // 이미지1
+      { top: "45%", left: "5%", rotate: -5 }, // 이미지2
     ],
 
     features: [
