@@ -199,6 +199,7 @@ function createSlide(data, index) {
     
     // 동영상 HTML 생성
     let videoHTML = '';
+    const hasVideo = data.video ? 1 : 0; // 동영상 유무 체크
     if (data.video) {
         videoHTML = `
             <div class="slide-media slide-video" data-position="${getMediaPosition(index, 0, 'video')}">
@@ -209,11 +210,11 @@ function createSlide(data, index) {
         `;
     }
     
-    // 이미지 HTML 생성
+    // 이미지 HTML 생성 (동영상이 있으면 인덱스를 1부터 시작하여 겹침 방지)
     let imagesHTML = '';
     if (data.images && data.images.length > 0) {
         imagesHTML = data.images.map((imageUrl, imgIndex) => `
-            <div class="slide-media slide-image" data-position="${getMediaPosition(index, imgIndex, 'image')}">
+            <div class="slide-media slide-image" data-position="${getMediaPosition(index, imgIndex + hasVideo, 'image')}">
                 <img src="${imageUrl}" alt="${data.title} - 이미지 ${imgIndex + 1}" loading="lazy">
             </div>
         `).join('');
