@@ -82,6 +82,11 @@ const teamYearData = [
         ],
         // 동영상 예시 (실제 프로젝트에서는 여러분의 동영상 URL로 교체)
         video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        // 🆕 사용자 지정 위치 (선택사항)
+        videoPosition: { top: '10%', left: '3%', rotate: -3 },
+        imagePositions: [
+            { top: '8%', right: '3%', rotate: 5 }
+        ],
         features: [
             { title: '참가팀', content: '50개 팀이 참여' },
             { title: '우수 아이디어', content: '10개 실제 제품화 진행' },
@@ -256,6 +261,34 @@ const config = {
    - 예: video: 'https://example.com/video.mp4'
    - MP4 형식 권장, 자동 재생/반복/음소거
    - 동영상이 없으면 null로 설정
+
+4. 🆕 이미지/동영상 위치 직접 지정하기 (선택사항):
+   - 자동 배치가 마음에 안 들면 직접 위치 지정 가능!
+   
+   예시:
+   {
+       month: '5월',
+       images: ['url1', 'url2'],
+       video: 'video-url',
+       
+       // 동영상 위치 지정
+       videoPosition: { 
+           top: '10%',      // 상단에서 10%
+           left: '5%',      // 왼쪽에서 5% (또는 right: '5%')
+           rotate: -3       // -3도 회전
+       },
+       
+       // 이미지 위치 배열 (이미지 개수만큼)
+       imagePositions: [
+           { top: '8%', right: '5%', rotate: 5 },   // 첫 번째 이미지
+           { top: '45%', left: '5%', rotate: -5 }   // 두 번째 이미지
+       ]
+   }
+   
+   💡 팁:
+   - top: 화면 상단에서의 거리 (권장: 5%-50%, 텍스트 가독성 확보)
+   - left 또는 right: 화면 좌우 위치
+   - rotate: 회전 각도 (-10 ~ 10 추천)
 
 4. 이모지 찾기:
    - https://emojipedia.org 에서 원하는 이모지를 복사/붙여넣기

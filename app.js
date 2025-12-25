@@ -201,23 +201,53 @@ function createSlide(data, index) {
     let videoHTML = '';
     const hasVideo = !!data.video;
     if (data.video) {
-        videoHTML = `
-            <div class="slide-media slide-video" data-position="${getMediaPosition(index, 0, 'video', false)}">
-                <video autoplay loop muted playsinline>
-                    <source src="${data.video}" type="video/mp4">
-                </video>
-            </div>
-        `;
+        // 사용자 지정 동영상 위치 확인
+        const customVideoPos = data.videoPosition;
+        
+        if (customVideoPos) {
+            const styleAttr = `style="top: ${customVideoPos.top}; left: ${customVideoPos.left || 'auto'}; right: ${customVideoPos.right || 'auto'}; transform: rotate(${customVideoPos.rotate || 0}deg);"`;
+            videoHTML = `
+                <div class="slide-media slide-video" data-custom="true" ${styleAttr}>
+                    <video autoplay loop muted playsinline>
+                        <source src="${data.video}" type="video/mp4">
+                    </video>
+                </div>
+            `;
+        } else {
+            videoHTML = `
+                <div class="slide-media slide-video" data-position="${getMediaPosition(index, 0, 'video', false)}">
+                    <video autoplay loop muted playsinline>
+                        <source src="${data.video}" type="video/mp4">
+                    </video>
+                </div>
+            `;
+        }
     }
     
     // 이미지 HTML 생성
     let imagesHTML = '';
     if (data.images && data.images.length > 0) {
-        imagesHTML = data.images.map((imageUrl, imgIndex) => `
-            <div class="slide-media slide-image" data-position="${getMediaPosition(index, imgIndex, 'image', hasVideo)}">
-                <img src="${imageUrl}" alt="${data.title} - 이미지 ${imgIndex + 1}" loading="lazy">
-            </div>
-        `).join('');
+        imagesHTML = data.images.map((imageUrl, imgIndex) => {
+            // 사용자 지정 위치가 있는지 확인
+            const customPos = data.imagePositions && data.imagePositions[imgIndex];
+            
+            if (customPos) {
+                // 사용자 지정 위치 사용
+                const styleAttr = `style="top: ${customPos.top}; left: ${customPos.left || 'auto'}; right: ${customPos.right || 'auto'}; transform: rotate(${customPos.rotate || 0}deg);"`;
+                return `
+                    <div class="slide-media slide-image" data-custom="true" ${styleAttr}>
+                        <img src="${imageUrl}" alt="${data.title} - 이미지 ${imgIndex + 1}" loading="lazy">
+                    </div>
+                `;
+            } else {
+                // 자동 위치 계산
+                return `
+                    <div class="slide-media slide-image" data-position="${getMediaPosition(index, imgIndex, 'image', hasVideo)}">
+                        <img src="${imageUrl}" alt="${data.title} - 이미지 ${imgIndex + 1}" loading="lazy">
+                    </div>
+                `;
+            }
+        }).join('');
     }
     
     slide.innerHTML = `
