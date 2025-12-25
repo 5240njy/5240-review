@@ -237,16 +237,18 @@ body {
     overflow: hidden;
     /* 우하향 방향 얕은 그림자 */
     box-shadow: 12px 12px 35px rgba(0, 0, 0, 0.3);
-    z-index: 2;
+    z-index: 1; /* 텍스트(z-index: 3)보다 뒤로 */
     /* border 제거 - 깔끔한 디자인 */
     backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
+    pointer-events: none; /* 클릭 이벤트 차단 (텍스트 클릭 방해 방지) */
 }
 
 .slide-media:hover {
     transform: scale(1.05) !important;
     /* 호버 시 우하향 그림자 더 진하게 */
     box-shadow: 18px 18px 50px rgba(0, 0, 0, 0.45);
+    z-index: 5; /* 호버 시 맨 앞으로 */
 }
 
 .slide-image {
@@ -265,53 +267,54 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: auto; /* 이미지/동영상 자체는 클릭 가능 */
 }
 
-/* 위치별 스타일 */
+/* 위치별 스타일 - 큰 이미지에 맞게 조정 */
 .slide-media[data-position="top-left"] {
-    top: 10%;
-    left: 5%;
+    top: 5%;
+    left: 3%;
     transform: rotate(-5deg);
 }
 
 .slide-media[data-position="top-right"] {
-    top: 10%;
-    right: 5%;
+    top: 5%;
+    right: 3%;
     transform: rotate(5deg);
 }
 
 .slide-media[data-position="bottom-left"] {
-    bottom: 10%;
-    left: 5%;
+    bottom: 5%;
+    left: 3%;
     transform: rotate(3deg);
 }
 
 .slide-media[data-position="bottom-right"] {
-    bottom: 10%;
-    right: 5%;
+    bottom: 5%;
+    right: 3%;
     transform: rotate(-3deg);
 }
 
 .slide-media[data-position="left-center"] {
     top: 50%;
-    left: 5%;
-    transform: translateY(-50%) rotate(-8deg);
+    left: 2%;
+    transform: translateY(-50%) rotate(-6deg);
 }
 
 .slide-media[data-position="right-center"] {
     top: 50%;
-    right: 5%;
-    transform: translateY(-50%) rotate(8deg);
+    right: 2%;
+    transform: translateY(-50%) rotate(6deg);
 }
 
 .slide-media[data-position="top-center"] {
-    top: 5%;
+    top: 3%;
     left: 50%;
     transform: translateX(-50%) rotate(-2deg);
 }
 
 .slide-media[data-position="bottom-center"] {
-    bottom: 5%;
+    bottom: 3%;
     left: 50%;
     transform: translateX(-50%) rotate(2deg);
 }

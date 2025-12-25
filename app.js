@@ -604,6 +604,11 @@ function enableClickToNext() {
                 return;
             }
             
+            // 동영상 클릭은 통과 (재생/일시정지 가능하도록)
+            if (e.target.tagName === 'VIDEO') {
+                return;
+            }
+            
             if (swiper) {
                 // 마지막 슬라이드인지 확인
                 const isLastSlide = swiper.activeIndex === teamYearData.length - 1;
