@@ -3,7 +3,7 @@
 
 const teamYearData = [
     {
-        month: '1월',
+        month: '1월aa',
         title: '새로운 시작',
         description: '새로운 팀원 5명이 합류하여 팀을 강화했습니다',
         stat: '5명',
