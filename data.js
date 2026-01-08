@@ -4,7 +4,7 @@
 const teamYearData = [
     {
         month: '2025 1️⃣',
-        title: '새로운 시작',
+        title: '새로운 시작!',
         description: '스마트한 HR시스템이 지원합니다.',
         stat: '3개 관점',
         icon: '🖥️',
