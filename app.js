@@ -322,6 +322,12 @@ function extractNumber(text) {
 
 // ==================== Swiper 초기화 ====================
 function initializeSwiper() {
+    // 기존 Swiper 인스턴스가 있으면 파괴
+    if (swiper) {
+        swiper.destroy(true, true);
+        swiper = null;
+    }
+    
     const swiperConfig = {
         direction: 'vertical',
         mousewheel: {
@@ -348,7 +354,13 @@ function initializeSwiper() {
                 return '<span class="' + className + '"></span>';
             },
         },
+        observer: true, // DOM 변경 감지
+        observeParents: true, // 부모 요소 변경 감지
         on: {
+            init: function() {
+                // Swiper 초기화 완료 후 크기 업데이트
+                this.updateSize();
+            },
             slideChange: function() {
                 updateSlideCounter(this.activeIndex);
                 updateProgressBar(this.activeIndex);
@@ -382,32 +394,46 @@ function startReview() {
     // 인트로 숨기기
     introScreen.classList.add('hidden');
     
-    // 메인 슬라이드 표시
-    setTimeout(() => {
-        mainSwiper.style.display = 'block';
-        slideCounter.style.display = 'block';
-        
-        // Swiper 업데이트
-        if (swiper) {
-            swiper.slideTo(0, 0);  // 첫 슬라이드로 확실히 이동
-            swiper.update();
-            updateProgressBar(0);
-            updateSlideCounter(0);
-            animateStats(0);
-        }
-        
-        // 기존 떠다니는 아이콘 제거 (중복 방지)
-        const floatingContainer = document.getElementById('floatingContainer');
-        if (floatingContainer) {
-            floatingContainer.innerHTML = '';
-        }
-        
-        // 떠다니는 아이콘 생성
-        createFloatingIcons();
-        
-        // 클릭 이벤트 리스너 등록 (중복 방지는 이미 처리됨)
-        enableClickToNext();
-    }, 500);
+    // 메인 슬라이드 표시 (먼저 표시)
+    mainSwiper.style.display = 'block';
+    slideCounter.style.display = 'block';
+    
+    // Swiper가 이미 초기화되어 있으면 파괴
+    if (swiper) {
+        swiper.destroy(true, true);
+        swiper = null;
+    }
+    
+    // 클릭 리스너 플래그 리셋
+    clickListenerAdded = false;
+    
+    // 브라우저가 레이아웃을 계산할 시간을 주기 위해 다음 프레임에서 Swiper 재초기화
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // Swiper 다시 초기화 (이제 display: block 상태)
+            initializeSwiper();
+            
+            // Swiper 초기화 후 추가 설정
+            if (swiper) {
+                swiper.slideTo(0, 0);
+                updateProgressBar(0);
+                updateSlideCounter(0);
+                animateStats(0);
+            }
+            
+            // 기존 떠다니는 아이콘 제거 (중복 방지)
+            const floatingContainer = document.getElementById('floatingContainer');
+            if (floatingContainer) {
+                floatingContainer.innerHTML = '';
+            }
+            
+            // 떠다니는 아이콘 생성
+            createFloatingIcons();
+            
+            // 클릭 이벤트 리스너 등록
+            enableClickToNext();
+        });
+    });
 }
 
 // ==================== 슬라이드 카운터 업데이트 ====================
@@ -653,7 +679,7 @@ function enableClickToNext() {
     
     const swiperContainer = document.querySelector('.swiper-container');
     
-    if (swiperContainer) {
+    if (swiperContainer && swiper && typeof swiper.slideNext === 'function') {
         swiperContainer.addEventListener('click', function(e) {
             // 버튼이나 페이지네이션 클릭은 제외
             if (e.target.closest('.swiper-button-next') || 
@@ -662,7 +688,7 @@ function enableClickToNext() {
                 return;
             }
             
-            if (swiper) {
+            if (swiper && typeof swiper.slideNext === 'function') {
                 // 마지막 슬라이드인지 확인
                 const isLastSlide = swiper.activeIndex === teamYearData.length - 1;
                 
