@@ -2,6 +2,7 @@
 let swiper = null;
 let currentSlideIndex = 0;
 let clickListenerAdded = false;
+let clickHandler = null; // 클릭 이벤트 핸들러 참조 저장
 
 // ==================== 초기화 ====================
 document.addEventListener('DOMContentLoaded', function() {
@@ -404,6 +405,13 @@ function startReview() {
         swiper = null;
     }
     
+    // 기존 클릭 이벤트 리스너 제거
+    const swiperContainer = document.querySelector('.swiper-container');
+    if (swiperContainer && clickHandler) {
+        swiperContainer.removeEventListener('click', clickHandler);
+        clickHandler = null;
+    }
+    
     // 클릭 리스너 플래그 리셋
     clickListenerAdded = false;
     
@@ -675,12 +683,18 @@ window.addEventListener('resize', function() {
 // ==================== 화면 클릭으로 다음 슬라이드 ====================
 function enableClickToNext() {
     // 이미 리스너가 추가되었으면 스킵 (중복 방지)
-    if (clickListenerAdded) return;
+    if (clickListenerAdded && clickHandler) return;
     
     const swiperContainer = document.querySelector('.swiper-container');
     
     if (swiperContainer && swiper && typeof swiper.slideNext === 'function') {
-        swiperContainer.addEventListener('click', function(e) {
+        // 기존 핸들러가 있으면 제거
+        if (clickHandler) {
+            swiperContainer.removeEventListener('click', clickHandler);
+        }
+        
+        // 새로운 클릭 핸들러 생성 및 저장
+        clickHandler = function(e) {
             // 버튼이나 페이지네이션 클릭은 제외
             if (e.target.closest('.swiper-button-next') || 
                 e.target.closest('.swiper-button-prev') || 
@@ -700,8 +714,9 @@ function enableClickToNext() {
                     swiper.slideNext();
                 }
             }
-        });
+        };
         
+        swiperContainer.addEventListener('click', clickHandler);
         clickListenerAdded = true;
     }
 }
