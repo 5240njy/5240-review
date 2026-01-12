@@ -162,7 +162,7 @@ const teamYearData = [
     {
         month: '2026년 셋',
         title: '대한민국 넘버원 HR시스템',
-        description: '계속되는 UIUX개선과 메뉴/기능추가.',
+        description: '계속되는 UIUX 개선과 메뉴/기능추가.',
         stat: '7개',
         icon: '🏆',
         images: [
@@ -170,7 +170,7 @@ const teamYearData = [
         ],
         video: null,
         features: [
-            { title: 'UIUX개선 ', content: '모바일 푸시알림, ToDo, 게시팝업, 그리고 최신화' },
+            { title: 'UIUX 개선 ', content: '모바일 푸시알림, ToDo, 게시팝업, 그리고 최신화' },
             { title: '메뉴와 기능', content: 'PC에서 사용자 경험 개선' },
             { title: '보안과 안정성', content: '시스템업그레이드와 국제보안인증 획득' }
         ]

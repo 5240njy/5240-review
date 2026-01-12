@@ -3,6 +3,7 @@ let swiper = null;
 let currentSlideIndex = 0;
 let clickListenerAdded = false;
 let clickHandler = null; // 클릭 이벤트 핸들러 참조 저장
+let finishHintTimer = null; // finish-hint 표시 타이머
 
 // ==================== 모바일 감지 ====================
 function isMobileDevice() {
@@ -518,10 +519,19 @@ function checkIfLastSlide(index) {
     const isLast = index === teamYearData.length - 1;
     const finishHint = document.getElementById('finishHint');
     
+    // 기존 타이머가 있으면 취소
+    if (finishHintTimer) {
+        clearTimeout(finishHintTimer);
+        finishHintTimer = null;
+    }
+    
     if (isLast) {
-        // 마지막 슬라이드에서 완료 힌트 표시
+        // 마지막 슬라이드에서 3초 후 완료 힌트 표시
         if (finishHint) {
-            finishHint.classList.add('visible');
+            finishHintTimer = setTimeout(() => {
+                finishHint.classList.add('visible');
+                finishHintTimer = null;
+            }, 3000); // 3초 딜레이
         }
     } else {
         // 다른 슬라이드에서는 힌트 숨김

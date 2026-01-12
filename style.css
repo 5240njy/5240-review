@@ -544,12 +544,14 @@ body {
 
 .ending-actions {
     display: flex;
-    gap: 1rem;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .action-button {
+    width: fit-content;
     padding: 1rem 2rem;
     font-size: 1rem;
     font-weight: 600;
@@ -636,7 +638,7 @@ body {
 /* ==================== 마지막 슬라이드 완료 힌트 ==================== */
 .finish-hint {
     position: fixed;
-    bottom: 50%;
+    top: 5%;
     left: 50%;
     transform: translate(-50%, 50%);
     z-index: 100;
@@ -705,6 +707,19 @@ body {
         border-radius: 25px;
     }
     
+    /* 모바일에서 인트로 텍스트 크기 조정 */
+    .intro-title {
+        font-size: clamp(2.5rem, 7vw, 3.5rem);
+    }
+    
+    .intro-subtitle {
+        font-size: clamp(1.5rem, 5.5vw, 2.5rem);
+    }
+    
+    .intro-description {
+        font-size: clamp(1.25rem, 4vw, 2rem);
+    }
+    
     .slide-counter {
         top: 20px;
         right: 20px;
@@ -729,24 +744,47 @@ body {
     
     .ending-actions {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
     }
     
-    /* 모바일에서는 힌트 텍스트 변경 */
+    /* 모바일에서는 힌트 텍스트 변경 - 상단에 배치 */
     .swiper-container::before {
-        content: '← 탭하여 이전으로';
-        bottom: 80px;
+        content: '← 이전';
+        top: 80px;
         left: 20px;
+        bottom: auto;
         font-size: 0.75rem;
         padding: 0.5rem 1rem;
     }
     
     .swiper-container::after {
-        content: '탭하여 다음으로 →';
-        bottom: 80px;
+        content: '다음 →';
+        top: 80px;
         right: 20px;
+        bottom: auto;
         font-size: 0.75rem;
         padding: 0.5rem 1rem;
+    }
+    
+    /* 모바일에서 텍스트 크기 조정 */
+    .slide-month {
+        font-size: clamp(0.875rem, 2vw, 1.25rem);
+    }
+    
+    .slide-title {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+    
+    .slide-description {
+        font-size: clamp(0.875rem, 2vw, 1.125rem);
+    }
+    
+    .slide-stat {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+    }
+    
+    .slide-icon {
+        font-size: clamp(2.5rem, 7vw, 4rem);
     }
     
     /* 모바일에서 떠다니는 아이콘 크기 조정 */
