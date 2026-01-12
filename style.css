@@ -738,6 +738,22 @@ body {
         font-size: 1.25rem;
     }
     
+    /* 모바일에서 페이지네이션을 화면 하단 가로로 배치 */
+    .swiper-pagination {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+    
     .slide-feature-list {
         grid-template-columns: 1fr;
     }
