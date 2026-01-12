@@ -279,12 +279,35 @@ body {
     height: 500px;
 }
 
+/* 반응형 이미지/동영상 처리 */
 .slide-media img,
 .slide-media video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* 반응형 이미지 최적화 - 모바일에서는 작은 이미지 로드 권장 */
+@media (max-width: 768px) {
+    .slide-media img {
+        /* 모바일에서는 이미지가 숨겨지지만, 혹시 표시될 경우를 대비 */
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* 태블릿 크기 조정 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .slide-image {
+        width: 400px;
+        height: 300px;
+    }
+    
+    .slide-video {
+        width: 500px;
+        height: 350px;
+    }
 }
 
 /* 위치별 스타일 - 큰 이미지에 맞게 조정 + 텍스트 가독성 확보 */
@@ -340,6 +363,7 @@ body {
 /* 사용자 지정 위치 (data.js에서 customPosition 사용 시) */
 .slide-media[data-custom="true"] {
     /* 커스텀 위치는 인라인 스타일로 적용됨 */
+    position: absolute;
 }
 
 /* ==================== 슬라이드 콘텐츠 ==================== */
@@ -352,7 +376,7 @@ body {
 }
 
 .slide-month {
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(1.25rem, 3vw, 2rem);
     font-weight: 600;
     color: var(--secondary-color);
     margin-bottom: 1rem;
@@ -560,6 +584,22 @@ body {
 }
 
 /* ==================== 커서 스타일 힌트 ==================== */
+.swiper-container::before {
+    content: '← 클릭하여 이전으로';
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 0.875rem;
+    opacity: 0;
+    animation: hintFadeIn 1s ease-in-out 2s forwards, hintPulse 2s ease-in-out 3s infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
 .swiper-container::after {
     content: '클릭하여 다음으로 →';
     position: fixed;
@@ -693,6 +733,14 @@ body {
     }
     
     /* 모바일에서는 힌트 텍스트 변경 */
+    .swiper-container::before {
+        content: '← 탭하여 이전으로';
+        bottom: 80px;
+        left: 20px;
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+    
     .swiper-container::after {
         content: '탭하여 다음으로 →';
         bottom: 80px;
@@ -712,21 +760,14 @@ body {
         height: 150px !important;
     }
     
-    /* 모바일에서 슬라이드 미디어 크기 조정 */
-    .slide-image {
-        width: 240px;
-        height: 180px;
+    /* 모바일에서 모든 슬라이드 미디어(이미지/동영상) 숨김 */
+    .slide-media {
+        display: none !important;
     }
     
-    .slide-video {
-        width: 300px;
-        height: 220px;
-    }
-    
-    /* 모바일에서는 미디어를 작게 */
-    .slide-media[data-position="left-center"],
-    .slide-media[data-position="right-center"] {
-        display: none; /* 모바일에서는 양옆 미디어 숨김 */
+    /* 모바일에서 슬라이드 콘텐츠 중앙 정렬 강화 */
+    .slide-content {
+        padding: 1rem;
     }
     
     /* 모바일에서 완료 힌트 크기 조정 */

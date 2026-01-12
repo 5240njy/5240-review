@@ -4,6 +4,20 @@ let currentSlideIndex = 0;
 let clickListenerAdded = false;
 let clickHandler = null; // 클릭 이벤트 핸들러 참조 저장
 
+// ==================== 모바일 감지 ====================
+function isMobileDevice() {
+    // 화면 너비 기준 (768px 이하)
+    if (window.innerWidth <= 768) {
+        return true;
+    }
+    // 터치 디바이스 감지
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        // 데스크톱 브라우저에서도 터치 지원할 수 있으므로 화면 크기로 재확인
+        return window.innerWidth <= 1024;
+    }
+    return false;
+}
+
 // ==================== 초기화 ====================
 document.addEventListener('DOMContentLoaded', function() {
     // AOS 초기화 (스크롤 애니메이션)
@@ -198,10 +212,13 @@ function createSlide(data, index) {
         `;
     }
     
-    // 동영상 HTML 생성
+    // 모바일에서는 이미지와 동영상을 생성하지 않음
+    const isMobile = isMobileDevice();
+    
+    // 동영상 HTML 생성 (모바일이 아닐 때만)
     let videoHTML = '';
-    const hasVideo = !!data.video;
-    if (data.video) {
+    const hasVideo = !!data.video && !isMobile;
+    if (data.video && !isMobile) {
         // 사용자 지정 동영상 위치 확인
         const customVideoPos = data.videoPosition;
         
@@ -225,9 +242,9 @@ function createSlide(data, index) {
         }
     }
     
-    // 이미지 HTML 생성
+    // 이미지 HTML 생성 (모바일이 아닐 때만)
     let imagesHTML = '';
-    if (data.images && data.images.length > 0) {
+    if (data.images && data.images.length > 0 && !isMobile) {
         imagesHTML = data.images.map((imageUrl, imgIndex) => {
             // 사용자 지정 위치가 있는지 확인
             const customPos = data.imagePositions && data.imagePositions[imgIndex];
@@ -276,7 +293,6 @@ function getMediaPosition(slideIndex, mediaIndex, type, hasVideo) {
         const videoPositions = ['left-center', 'right-center', 'top-center', 'bottom-center'];
         const positionIndex = slideIndex % videoPositions.length;
         const position = videoPositions[positionIndex];
-        console.log(`🎬 동영상 위치 [${slideIndex}월(index:${slideIndex})] → ${position}`);
         return position;
     } else {
         // 이미지 위치 (동영상 반대편에 배치)
@@ -302,14 +318,12 @@ function getMediaPosition(slideIndex, mediaIndex, type, hasVideo) {
             }
             
             const position = imagePositions[mediaIndex % imagePositions.length];
-            console.log(`📸 이미지 위치 [${slideIndex}월, index:${mediaIndex}] → ${position} (동영상 반대편)`);
             return position;
         } else {
             // 동영상 없으면 자유롭게 배치
             const imagePositions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
             const positionIndex = (slideIndex * 2 + mediaIndex) % imagePositions.length;
             const position = imagePositions[positionIndex];
-            console.log(`📸 이미지 위치 [${slideIndex}월, index:${mediaIndex}] → ${position}`);
             return position;
         }
     }
@@ -344,10 +358,10 @@ function initializeSwiper() {
         fadeEffect: {
             crossFade: true
         },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
+        // navigation: {
+        //     nextEl: '.swiper-button-next',
+        //     prevEl: '.swiper-button-prev',
+        // },
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -678,9 +692,47 @@ window.addEventListener('resize', function() {
     if (swiper) {
         swiper.update();
     }
+    
+    // 화면 크기 변경 시 모바일 상태 재확인 및 슬라이드 재생성
+    const wasMobile = window.wasMobileBeforeResize || false;
+    const nowMobile = isMobileDevice();
+    
+    // 모바일 상태가 변경되었을 때만 슬라이드 재생성
+    if (wasMobile !== nowMobile) {
+        window.wasMobileBeforeResize = nowMobile;
+        
+        // 슬라이드 컨테이너 초기화
+        const slidesContainer = document.getElementById('slidesContainer');
+        if (slidesContainer) {
+            const currentIndex = swiper ? swiper.activeIndex : 0;
+            slidesContainer.innerHTML = '';
+            
+            // 슬라이드 재생성
+            teamYearData.forEach((data, index) => {
+                const slide = createSlide(data, index);
+                slidesContainer.appendChild(slide);
+            });
+            
+            // Swiper 재초기화
+            if (swiper) {
+                swiper.destroy(true, true);
+            }
+            initializeSwiper();
+            
+            // 이전 슬라이드로 이동
+            if (swiper && currentIndex < teamYearData.length) {
+                swiper.slideTo(currentIndex, 0);
+            }
+        }
+    } else {
+        window.wasMobileBeforeResize = nowMobile;
+    }
 });
 
-// ==================== 화면 클릭으로 다음 슬라이드 ====================
+// 초기 모바일 상태 저장
+window.wasMobileBeforeResize = isMobileDevice();
+
+// ==================== 화면 클릭으로 다음/이전 슬라이드 ====================
 function enableClickToNext() {
     // 이미 리스너가 추가되었으면 스킵 (중복 방지)
     if (clickListenerAdded && clickHandler) return;
@@ -703,15 +755,28 @@ function enableClickToNext() {
             }
             
             if (swiper && typeof swiper.slideNext === 'function') {
-                // 마지막 슬라이드인지 확인
+                // 화면 너비의 절반 기준으로 클릭 위치 확인
+                const screenWidth = window.innerWidth;
+                const clickX = e.clientX;
+                const isLeftHalf = clickX < screenWidth / 2;
+                
+                const isFirstSlide = swiper.activeIndex === 0;
                 const isLastSlide = swiper.activeIndex === teamYearData.length - 1;
                 
-                if (isLastSlide) {
-                    // 마지막 슬라이드에서 클릭하면 엔딩 화면으로
-                    showEndingScreen();
+                if (isLeftHalf) {
+                    // 왼쪽 절반 클릭 - 이전 슬라이드
+                    if (!isFirstSlide) {
+                        swiper.slidePrev();
+                    }
                 } else {
-                    // 다음 슬라이드로 이동
-                    swiper.slideNext();
+                    // 오른쪽 절반 클릭 - 다음 슬라이드
+                    if (isLastSlide) {
+                        // 마지막 슬라이드에서 클릭하면 엔딩 화면으로
+                        showEndingScreen();
+                    } else {
+                        // 다음 슬라이드로 이동
+                        swiper.slideNext();
+                    }
                 }
             }
         };
@@ -771,8 +836,3 @@ window.goToSlide = function(index) {
 window.showData = function() {
     console.table(teamYearData);
 };
-
-console.log('%c🎉 팀 결산 페이지가 로드되었습니다!', 'color: #0078d4; font-size: 16px; font-weight: bold;');
-console.log('%c💡 팁: data.js 파일을 수정하여 내용을 변경할 수 있습니다.', 'color: #50e6ff; font-size: 12px;');
-console.log('%c⌨️  단축키: Space(다음), ESC(처음으로), 화면클릭(다음)', 'color: #00cc6a; font-size: 12px;');
-
