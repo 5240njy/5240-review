@@ -10,6 +10,7 @@ const teamYearData = [
         icon: '🖥️',
         // 이미지 URL (선택사항 - 없으면 아이콘만 표시)
         images: [
+            // '/media/images/출근현황.gif',
             'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop',
             'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop'
         ],
