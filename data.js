@@ -46,7 +46,7 @@ const teamYearData = [
         stat: '3+',
         icon: '⭐',
         images: [
-            '/media/images/3.조직도 이미지.png'
+            'media/images/3.조직도 이미지.png'
         ],
         video: null,
         features: [
@@ -62,8 +62,8 @@ const teamYearData = [
         stat: '85점',
         icon: '🌏',
         images: [
-            '/media/images/4.1급여명세서 이미지.png',
-            '/media/images/4.2급여계산 이미지.png'
+            'media/images/4.1급여명세서 이미지.png',
+            'media/images/4.2급여계산 이미지.png'
         ],
         video: null,
         features: [
@@ -79,7 +79,7 @@ const teamYearData = [
         stat: '10+',
         icon: '💡',
         images: [
-            '/media/images/5.홈화면 이미지.png',
+            'media/images/5.홈화면 이미지.png',
         ],
         // 동영상 예시 (실제 프로젝트에서는 여러분의 동영상 URL로 교체)
         video:  null,
@@ -117,7 +117,7 @@ const teamYearData = [
         stat: '3+',
         icon: '🎉',
         images: [
-            '/media/images/7.결재문서함 이미지.png',
+            'media/images/7.결재문서함 이미지.png',
         ],
         video: null,
         features: [
@@ -133,7 +133,7 @@ const teamYearData = [
         stat: '700일 준비',
         icon: '🤖',
         images: [
-            '/media/images/8.AI-5240 이미지.png'
+            'media/images/8.AI-5240 이미지.png'
         ],
         video: null,
         features: [
@@ -165,7 +165,7 @@ const teamYearData = [
         stat: '7개',
         icon: '🏆',
         images: [
-            '/media/images/10.5240.png'
+            'media/images/10.5240.png'
         ],
         video: null,
         features: [
