@@ -46,7 +46,7 @@ const teamYearData = [
         stat: '3+',
         icon: '⭐',
         images: [
-            'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&h=600&fit=crop'
+            '/media/images/3.조직도 이미지.png'
         ],
         video: null,
         features: [
@@ -62,8 +62,8 @@ const teamYearData = [
         stat: '85점',
         icon: '🌏',
         images: [
-            'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&h=600&fit=crop',
-            'https://images.unsplash.com/photo-1524850011238-e3d235c7d4c9?w=800&h=600&fit=crop'
+            '/media/images/4.1급여명세서 이미지.png',
+            '/media/images/4.2급여계산 이미지.png'
         ],
         video: null,
         features: [
@@ -79,10 +79,10 @@ const teamYearData = [
         stat: '10+',
         icon: '💡',
         images: [
-            'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop'
+            '/media/images/5.홈화면 이미지.png',
         ],
         // 동영상 예시 (실제 프로젝트에서는 여러분의 동영상 URL로 교체)
-        video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        video:  null,
         // 🆕 사용자 지정 위치 (선택사항)
         videoPosition: { top: '10%', left: '3%', rotate: -3 },
         imagePositions: [
@@ -90,7 +90,7 @@ const teamYearData = [
         ],
         features: [
             { title: '홈화면 위젯', content: '홈화면에서 다양한 정보를 즉시 조회' },
-            { title: '연차족진 개선', content: '연차촉진을 실제 데이터로 처리' },
+            { title: '연차촉진 개선', content: '연차촉진을 실제 데이터로 처리' },
             { title: '팝업공지 그리고 설문조사', content: '고객사별 팝업공지와 설문조사까지' }
         ]
     },
@@ -113,18 +113,17 @@ const teamYearData = [
     {
         month: '2025 7️⃣',
         title: '앗! 빠뜨리면 서운할 것',
-        description: '총무관리 메뉴와 시스템안정성',
+        description: '총무관리 메뉴와 시스템 안정성',
         stat: '3+',
         icon: '🎉',
         images: [
-            'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop',
-            'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop'
+            '/media/images/7.결재문서함 이미지.png',
         ],
         video: null,
         features: [
             { title: '데이터폼 강화', content: '자유폼과 데이터까지 처리되는 양식추가' },
             { title: '다양한 총무처리', content: '인사업무의 반은 총무업무! 프로세스로 자동화' },
-            { title: '시스템안정성', content: '시스템 튜닝과 APM가동으로 안정성 강화화' }
+            { title: '시스템 안정성', content: '시스템 튜닝과 APM가동으로 안정성 강화' }
         ]
     },
     {
@@ -134,7 +133,7 @@ const teamYearData = [
         stat: '700일 준비',
         icon: '🤖',
         images: [
-            'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800&h=600&fit=crop'
+            '/media/images/8.AI-5240 이미지.png'
         ],
         video: null,
         features: [
@@ -155,8 +154,8 @@ const teamYearData = [
         video: null,
         features: [
             { title: '고객지원', content: '문의-답변프로세스 활성화와 빠른 처리' },
-            { title: '5240가이드홈', content: '매뉴얼과 HR업무 지원까지' },
-            { title: '각종 자료', content: 'HR업무 이해를 돕는 컨텐츠 제공공' }
+            { title: '5240 가이드홈', content: '매뉴얼과 HR업무 지원까지' },
+            { title: '각종 자료', content: 'HR업무 이해를 돕는 컨텐츠 제공' }
         ]
     },
     {
@@ -166,7 +165,7 @@ const teamYearData = [
         stat: '7개',
         icon: '🏆',
         images: [
-            'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=800&h=600&fit=crop'
+            '/media/images/10.5240.png'
         ],
         video: null,
         features: [

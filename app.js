@@ -268,12 +268,15 @@ function createSlide(data, index) {
             }
         }).join('');
     }
+    // 2026년도 슬라이드인지 확인
+    const is2026 = data.month.includes('2026');
+    const monthClass = is2026 ? 'slide-month slide-month-large' : 'slide-month';
     
     slide.innerHTML = `
         ${videoHTML}
         ${imagesHTML}
         <div class="slide-content">
-            <div class="slide-month">${data.month}</div>
+            <div class="${monthClass}">${data.month}</div>
             ${data.icon ? `<div class="slide-icon">${data.icon}</div>` : ''}
             <h2 class="slide-title">${data.title}</h2>
             ${data.stat ? `<div class="slide-stat" data-count="${extractNumber(data.stat)}">${data.stat}</div>` : ''}
@@ -493,14 +496,22 @@ function animateStats(slideIndex) {
     if (statElement) {
         const targetNumber = parseFloat(extractNumber(statElement.textContent));
         const originalText = statElement.textContent;
-        const suffix = originalText.replace(/[\d,.\s]/g, '');
+        // 숫자 부분을 찾아서 앞뒤를 분리 (공백 보존)
+        const numberMatch = originalText.match(/[\d,.]+/);
+        let suffix = '';
+        if (numberMatch) {
+            const numberIndex = originalText.indexOf(numberMatch[0]);
+            suffix = originalText.substring(numberIndex + numberMatch[0].length);
+        } else {
+            suffix = originalText.replace(/[\d,.]/g, '');
+        }
         
         if (!isNaN(targetNumber) && targetNumber > 0) {
             const options = {
                 duration: 2,
                 separator: ',',
                 decimal: '.',
-                suffix: suffix ? ' ' + suffix : ''
+                suffix: suffix
             };
             
             const countUpAnim = new countUp.CountUp(statElement, targetNumber, options);
